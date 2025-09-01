@@ -1,0 +1,6 @@
+language_model_name: "gpt-4.1-mini"
+embedding_model_name: "sentence-transformers/all-MiniLM-L6-v2"
+vector_store:
+  storage_path: "./chroma_langchain_db"
+  index_name: "documents"
+documents_path: "../data"
