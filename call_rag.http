@@ -1,0 +1,7 @@
+### POST request to example server
+POST localhost:8000/ask
+
+{
+    "question": "What is Deutshe Telecom?"
+}
+###

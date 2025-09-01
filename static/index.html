@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ask Telecom</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #response {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      min-height: 100px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ask about the Deutsche Telecom</h1>
+  <textarea id="question" placeholder="Type your question..."></textarea><br>
+  <button id="askBtn">Ask</button>
+
+  <div id="response"></div>
+
+  <script>
+    const askBtn = document.getElementById("askBtn");
+    const questionInput = document.getElementById("question");
+    const responseDiv = document.getElementById("response");
+
+    askBtn.addEventListener("click", async () => {
+      responseDiv.textContent = ""; // clear previous response
+      const question = questionInput.value;
+
+      // Start the fetch POST request
+      const resp = await fetch("/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
+      });
+
+      if (!resp.body) {
+        responseDiv.textContent = "No response body!";
+        return;
+      }
+
+      // Use a reader to stream the body
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("|");
+        for (let line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+            if (data === "[DONE]") {
+              return; // end of stream
+            }
+            responseDiv.textContent += data;
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
