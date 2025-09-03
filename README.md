@@ -19,14 +19,14 @@ pip install -r requirements.txt
 export  OPENAI_API_KEY="your key"
 ```
 
+### Copy in the data folder
+Copy the folder `data` into the repository, on the same level as `src`
+
 ### Ingest documents to database
 ```bash
 cd src
 python ingest_documents.py
 ```
-
-### Copy in the data folder
-Copy the folder `data` into the repository, on the same level as `src`
 
 ### Start the application
 ```bash
