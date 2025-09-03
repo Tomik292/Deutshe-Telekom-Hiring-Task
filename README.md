@@ -25,6 +25,9 @@ cd src
 python ingest_documents.py
 ```
 
+### Copy in the data folder
+Copy the folder `data` into the repository, on the same level as `src`
+
 ### Start the application
 ```bash
 python main.py
