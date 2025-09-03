@@ -18,7 +18,7 @@ class Input(BaseModel):
 
 
 @router.get("/")
-async def serve_index():
+async def serve_index() -> FileResponse:
     return FileResponse(os.path.join("..", "static", "index.html"))
 
 

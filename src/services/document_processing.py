@@ -9,7 +9,7 @@ class DocumentProcessor:
     def __init__(self, path_to_documents: str):
         self.documents_path: str = path_to_documents
 
-    def process_documents(self,) -> list[Document]:
+    def process_documents(self) -> list[Document]:
         for file in os.listdir(self.documents_path):
             if file.endswith(".txt"):
                 with open(os.path.join(self.documents_path, file), "r") as f:

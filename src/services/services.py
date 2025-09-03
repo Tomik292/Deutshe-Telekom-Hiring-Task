@@ -1,8 +1,7 @@
 import os
 
 from dependency_injector import containers, providers
-
-from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 
 from services.document_processing import DocumentProcessor
@@ -20,8 +19,8 @@ class Container(containers.DeclarativeContainer):
     )
 
     embeddings = providers.Singleton(
-        HuggingFaceEmbeddings,
-        model_name=config.embedding_model_name,
+        OpenAIEmbeddings,
+        model=config.embedding_model_name,
         )
 
     vector_store = providers.Singleton(
